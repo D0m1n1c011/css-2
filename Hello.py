@@ -12,40 +12,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import google.generativeai as genai
+
+model = genai.GenerativeModel(model_name="gemini-1.0-pro")
+
 import streamlit as st
 from streamlit.logger import get_logger
+genai.configure(api_key=st.secrets["api_key"])
 
-LOGGER = get_logger(__name__)
+convo = model.start_chat(history=[ 
+])
 
+convo.send_message("YOUR_USER_INPUT")
+print(convo.last.text)
 
 def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+      st.set_page_config(
+            page_title = "Gemini",
+            page_icon = "👋",
+      )
+      st.title("Streamlit X Gemini")
+      st.write("# Welcome to Zhihai's Island")
+      input_text = st.text_area("Enter prompt here:")
+      chat_button = st.button("Do the magic!")
 
-    st.write("# Welcome to Streamlit! 👋")
+      if chat_button and input_text.strip() != "":
+            with st.spinner("Loading..."):
+                  convo.send_message(input_text)
+                  st.success(convo.last.text)
 
-    st.sidebar.success("Select a demo above.")
-
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
-
-
-if __name__ == "__main__":
-    run()
+      else:
+            st.warning("Cease amd desist")
