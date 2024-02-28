@@ -23,8 +23,8 @@ genai.configure(api_key=st.secrets["api_key"])
 convo = model.start_chat(history=[ 
 ])
 
-convo.send_message("YOUR_USER_INPUT")
-print(convo.last.text)
+# convo.send_message("YOUR_USER_INPUT")
+# print(convo.last.text)
 
 def run():
       st.set_page_config(
